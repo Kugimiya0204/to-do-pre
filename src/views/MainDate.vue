@@ -7,9 +7,9 @@
       <a href="#" class="btn btn-primary btnsty myfont1" @click="doadd">新增</a>
     </div>
   </div>
-  <div v-for="data in TodoData" :key="data.todoId">
-    <div class="card datacard">
-      <div v-if="data.isComplete == 'Y'" class="card-header row bg-success-subtle reset">
+  <div class="row d-flex reset">
+    <div v-for="data in TodoData" :key="data.todoId" class="card datacard col-5">
+      <div v-if="data.isComplete == 'Y'" class="card-header row bg-success-subtle">
         <div class="col-5 fs-3">姓名: {{ data.name }}</div>
         <div class="col-5 text-end">已完成</div>
         <div class="col-2">完成時間:{{ data.completeTime }}</div>
@@ -114,9 +114,7 @@ onMounted(() => {
 
 <style scoped>
 .datacard {
-  width: 80%;
-  margin-left: 10%;
-
+  margin-left: 5%;
   margin-bottom: 2%;
   border: solid green 1px;
 }
