@@ -10,7 +10,28 @@
   <div class="row d-flex reset">
     <div v-for="data in TodoData" :key="data.todoId" class="card datacard col-5">
       <div v-if="data.isComplete == 'Y'" class="card-header row bg-success-subtle">
-        <div class="col-5 fs-3">姓名: {{ data.name }}</div>
+        <div class="col-5 fs-3">
+          <span
+            ><svg
+              xmlns="http://www.w3.org/2000/svg"
+              x="0px"
+              y="0px"
+              width="25"
+              height="25"
+              viewBox="0 0 48 48"
+            >
+              <path
+                fill="#4caf50"
+                d="M44,24c0,11.045-8.955,20-20,20S4,35.045,4,24S12.955,4,24,4S44,12.955,44,24z"
+              ></path>
+              <path
+                fill="#ccff90"
+                d="M34.602,14.602L21,28.199l-5.602-5.598l-2.797,2.797L21,33.801l16.398-16.402L34.602,14.602z"
+              ></path>
+            </svg>
+          </span>
+          <span> 姓名: {{ data.name }} </span>
+        </div>
         <div class="col-5 text-end">已完成</div>
         <div class="col-2">完成時間:{{ data.completeTime }}</div>
       </div>
