@@ -10,7 +10,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">修改代辦事項</h1>
+          <h1 class="modal-title fs-5" id="exampleModalLabel">新增代辦事項</h1>
           <button
             type="button"
             class="btn-close"
@@ -41,7 +41,7 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-success" @click="transdata">修改</button>
+          <button type="button" class="btn btn-success" @click="transdata">新增</button>
         </div>
       </div>
     </div>
@@ -52,7 +52,7 @@
 import { ref, onMounted } from 'vue'
 import bootstrap from 'bootstrap/dist/js/bootstrap.bundle.min.js'
 
-const emits = defineEmits(['update'])
+const emits = defineEmits(['add'])
 
 const exampleModalRef = ref(null)
 const exampleModalObj = ref(null)
@@ -65,23 +65,22 @@ function hideModal() {
   exampleModalObj.value.hide()
 }
 
-function setTempData(data) {
-  tempData.value = JSON.parse(JSON.stringify(data))
-  console.log(tempData.value)
-}
-
 function transdata() {
-  emits('update', tempData.value)
+  emits('add', tempData.value)
 }
 
 defineExpose({
   showModal,
-  hideModal,
-  setTempData
+  hideModal
 })
 
 onMounted(() => {
   exampleModalObj.value = new bootstrap.Modal(exampleModalRef.value)
+  tempData.value = {
+    name: null,
+    title: null,
+    todoContent: null
+  }
 })
 </script>
 

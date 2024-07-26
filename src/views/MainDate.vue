@@ -1,4 +1,10 @@
 <template>
+  <div class="row justify-content-between">
+    <div class="col-4">代辦事項資料</div>
+    <div class="col-4 d-flex justify-content-end">
+      <a href="#" class="btn btn-primary" @click="doadd">新增</a>
+    </div>
+  </div>
   <div v-for="data in TodoData" :key="data.todoId">
     <div class="card">
       <div class="card-header row">
@@ -14,21 +20,25 @@
         <h5 class="card-title">{{ data.title }}</h5>
         <p class="card-text">{{ data.todoContent }}</p>
         <a href="#" class="btn btn-primary" @click="domodify(data)">修改</a>
-        <a href="#" class="btn btn-primary">刪除</a>
+        <a href="#" class="btn btn-primary" @click="dodelete(data)">刪除</a>
         <a href="#" class="btn btn-primary">完成</a>
       </div>
     </div>
   </div>
-  <ModifyModule ref="ModifyModuleRef" :TodoData @update="updatedata"></ModifyModule>
+
+  <modifyModule ref="ModifyModuleRef" @update="updatedata"></modifyModule>
+  <addModule ref="AddModuleRef" @add="adddata"></addModule>
 </template>
 
 <script setup>
 import { onMounted, ref } from 'vue'
 import axios from 'axios'
-import ModifyModule from '../components/Module/modifymodule.vue'
+import modifyModule from '../components/Module/modifymodule.vue'
+import addModule from '@/components/Module/addmodule.vue'
 
 const TodoData = ref(null)
 const ModifyModuleRef = ref(null)
+const AddModuleRef = ref(null)
 
 async function callselect() {
   try {
@@ -44,6 +54,19 @@ function domodify(data) {
   ModifyModuleRef.value.showModal()
 }
 
+async function dodelete(data) {
+  try {
+    const res = await axios.delete(`https://192.168.233.40/todo/api/Todo/Delete/${data.todoId}`)
+    alert(res.data.returnMessage)
+    callselect()
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+function doadd() {
+  AddModuleRef.value.showModal()
+}
 async function updatedata(data) {
   try {
     const res = await axios.put(
@@ -51,6 +74,17 @@ async function updatedata(data) {
       data
     )
     ModifyModuleRef.value.hideModal()
+    alert(res.data.returnMessage)
+    callselect()
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+async function adddata(data) {
+  try {
+    const res = await axios.post('https://192.168.233.40/todo/api/Todo/InsertTodo', data)
+    AddModuleRef.value.hideModal()
     alert(res.data.returnMessage)
     callselect()
   } catch (error) {
