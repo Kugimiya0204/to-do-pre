@@ -30,8 +30,7 @@ const router = createRouter({
 router.beforeEach(async (to, from) => {
   const isLogin = document.cookie.includes('user=')
   console.log('to =' + to.name, 'from =' + from.name)
-  if (!isLogin && to.name != 'login') {
-    document.cookie.concat('msg=未登入')
+  if ((!isLogin || document.cookie.length == 5) && to.name != 'login') {
     return { name: 'login' }
   }
 })

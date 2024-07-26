@@ -19,15 +19,22 @@
         <div class="col-5 text-end">未完成</div>
         <div class="col-2">創立時間:{{ data.addTime }}</div>
       </div>
-      <div class="card-body">
+      <div class="card-body reset mt-3 mb-3">
         <h5 class="card-title fs-4 d-flex justify-content-center bg-warning-subtle reset">
           {{ data.title }}
         </h5>
-        <p class="card-text">{{ data.todoContent }}</p>
+        <p class="card-text mt-3">{{ data.todoContent }}</p>
         <div class="d-flex justify-content-end">
-          <a href="#" class="btn btn-primary me-2 btnsty myfont1" @click="domodify(data)">修改</a>
-          <a href="#" class="btn btn-primary me-2 btnsty myfont1" @click="dodelete(data)">刪除</a>
-          <a href="#" class="btn btn-primary btnsty myfont1" @click="dofinish(data)">完成</a>
+          <a href="#" class="btn btn-warning me-2 btnsty myfont1" @click="domodify(data)">修改</a>
+          <a href="#" class="btn btn-danger me-2 btnsty myfont1" @click="dodelete(data)">刪除</a>
+          <a
+            v-if="data.isComplete == 'Y'"
+            href="#"
+            class="btn btn-secondary btnsty myfont1"
+            disabled
+            >完成</a
+          >
+          <a v-else href="#" class="btn btn-success btnsty myfont1" @click="dofinish(data)">完成</a>
         </div>
       </div>
     </div>
@@ -46,10 +53,11 @@ import addModule from '@/components/Module/addmodule.vue'
 const TodoData = ref(null)
 const ModifyModuleRef = ref(null)
 const AddModuleRef = ref(null)
+const env = import.meta.env.VITE_BASE_URL
 
 async function callselect() {
   try {
-    const res = (await axios.get('https://192.168.233.40/todo/api/Todo/Get')).data
+    const res = (await axios.get(env + 'api/Todo/Get')).data
     TodoData.value = res.returnData
   } catch (error) {
     console.error(error)
@@ -62,7 +70,7 @@ function domodify(data) {
 }
 
 async function dodelete(data) {
-  const res = await axios.delete(`https://192.168.233.40/todo/api/Todo/Delete/${data.todoId}`)
+  const res = await axios.delete(env + `api/Todo/Delete/${data.todoId}`)
   alert(res.data.returnMessage)
   callselect()
 }
@@ -76,18 +84,12 @@ async function dofinish(data) {
     todoId: data.todoId,
     isComplete: 'Y'
   }
-  const res = await axios.put(
-    `https://192.168.233.40/todo/api/Todo/UpdateTodoStatus/${data.todoId}`,
-    req
-  )
+  const res = await axios.put(env + `api/Todo/UpdateTodoStatus/${data.todoId}`, req)
   alert(res.data.returnMessage)
   callselect()
 }
 async function updatedata(data) {
-  const res = await axios.put(
-    `https://192.168.233.40/todo/api/Todo/UpdateTodoContent/${data.todoId}`,
-    data
-  )
+  const res = await axios.put(env + `api/Todo/UpdateTodoContent/${data.todoId}`, data)
   ModifyModuleRef.value.hideModal()
   alert(res.data.returnMessage)
   callselect()
@@ -99,6 +101,7 @@ async function adddata(data) {
   alert(res.data.returnMessage)
   callselect()
 }
+
 axios.interceptors.response.use(
   function (response) {
     return response

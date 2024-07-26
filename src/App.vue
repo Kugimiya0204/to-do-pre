@@ -1,14 +1,16 @@
 <script setup>
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { RouterView } from 'vue-router'
-const Name = computed(() => {
-  return document.cookie.substring(5, 8)
-})
+const uName = ref(
+  computed(() => {
+    return document.cookie.substring(5, 8)
+  })
+)
 </script>
 
 <template>
   <div>
-    <RouterView name="topNavbar" v-model="Name"></RouterView>
+    <RouterView name="topNavbar" v-model="uName"></RouterView>
     <RouterView></RouterView>
     <RouterView name="botNavbar"></RouterView>
   </div>

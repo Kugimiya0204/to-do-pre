@@ -34,6 +34,7 @@ const loginList = [
 function login() {
   if (checklogin) {
     document.cookie = 'user=' + username.value + ';'
+
     return router.push({ name: 'Home' })
   }
 }
