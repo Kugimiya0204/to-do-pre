@@ -21,21 +21,23 @@
         <div class="modal-body">
           <div class="row g-2">
             <div v-if="tempData" class="row">
-              <div class="form-floating">
-                <input type="text" class="form-control" v-model="tempData.name" />
-                <label for="floatingInputGrid">姓名</label>
+              <div class="form-floating mb-4">
+                <input type="text" class="form-control" id="name" v-model="tempData.name" />
+                <label for="name">姓名</label>
               </div>
-              <div class="form-floating">
-                <input type="text" class="form-control" v-model="tempData.title" />
-                <label for="floatingInputGrid">代辦標題</label>
+              <div class="form-floating mb-4">
+                <input type="text" class="form-control" id="title" v-model="tempData.title" />
+                <label for="title">代辦標題</label>
               </div>
               <div class="form-floating">
                 <textarea
                   type="text"
                   class="form-control"
+                  id="context"
+                  style="height: 300px"
                   v-model="tempData.todoContent"
                 ></textarea>
-                <label for="floatingInputGrid">代辦內容</label>
+                <label for="context">代辦內容</label>
               </div>
             </div>
           </div>
@@ -50,7 +52,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import bootstrap from 'bootstrap/dist/js/bootstrap.bundle.min.js'
+import * as bootstrap from 'bootstrap'
 
 const emits = defineEmits(['update'])
 

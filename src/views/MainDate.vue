@@ -1,27 +1,34 @@
 <template>
-  <div class="row justify-content-between">
-    <div class="col-4">代辦事項資料</div>
+  <div
+    class="row justify-content-between datatitle bg-primary-subtle d-flex justify-content-evenly mb-4"
+  >
+    <div class="col-4 titletext">代辦事項資料</div>
     <div class="col-4 d-flex justify-content-end">
-      <a href="#" class="btn btn-primary" @click="doadd">新增</a>
+      <a href="#" class="btn btn-primary btnsty myfont1" @click="doadd">新增</a>
     </div>
   </div>
   <div v-for="data in TodoData" :key="data.todoId">
-    <div class="card">
-      <div class="card-header row">
-        <div class="col-5">
-          {{ data.name }}
-        </div>
-        <div v-if="data.isComplete == 'Y'" class="col-5 text-end">已完成</div>
-        <div v-else class="col-5 text-end">未完成</div>
-        <div v-if="data.completeTime" class="col-2">完成時間:{{ data.completeTime }}</div>
-        <div v-else class="col-2">創立時間:{{ data.addTime }}</div>
+    <div class="card datacard">
+      <div v-if="data.isComplete == 'Y'" class="card-header row bg-success-subtle reset">
+        <div class="col-5 fs-3">姓名: {{ data.name }}</div>
+        <div class="col-5 text-end">已完成</div>
+        <div class="col-2">完成時間:{{ data.completeTime }}</div>
+      </div>
+      <div v-else class="card-header row">
+        <div class="col-5 fs-3">姓名: {{ data.name }}</div>
+        <div class="col-5 text-end">未完成</div>
+        <div class="col-2">創立時間:{{ data.addTime }}</div>
       </div>
       <div class="card-body">
-        <h5 class="card-title">{{ data.title }}</h5>
+        <h5 class="card-title fs-4 d-flex justify-content-center bg-warning-subtle reset">
+          {{ data.title }}
+        </h5>
         <p class="card-text">{{ data.todoContent }}</p>
-        <a href="#" class="btn btn-primary" @click="domodify(data)">修改</a>
-        <a href="#" class="btn btn-primary" @click="dodelete(data)">刪除</a>
-        <a href="#" class="btn btn-primary" @click="dofinish(data)">完成</a>
+        <div class="d-flex justify-content-end">
+          <a href="#" class="btn btn-primary me-2 btnsty myfont1" @click="domodify(data)">修改</a>
+          <a href="#" class="btn btn-primary me-2 btnsty myfont1" @click="dodelete(data)">刪除</a>
+          <a href="#" class="btn btn-primary btnsty myfont1" @click="dofinish(data)">完成</a>
+        </div>
       </div>
     </div>
   </div>
@@ -55,13 +62,9 @@ function domodify(data) {
 }
 
 async function dodelete(data) {
-  try {
-    const res = await axios.delete(`https://192.168.233.40/todo/api/Todo/Delete/${data.todoId}`)
-    alert(res.data.returnMessage)
-    callselect()
-  } catch (error) {
-    console.error(error)
-  }
+  const res = await axios.delete(`https://192.168.233.40/todo/api/Todo/Delete/${data.todoId}`)
+  alert(res.data.returnMessage)
+  callselect()
 }
 
 function doadd() {
@@ -73,44 +76,59 @@ async function dofinish(data) {
     todoId: data.todoId,
     isComplete: 'Y'
   }
-  try {
-    const res = await axios.put(
-      `https://192.168.233.40/todo/api/Todo/UpdateTodoStatus/${data.todoId}`,
-      req
-    )
-    alert(res.data.returnMessage)
-    callselect()
-  } catch (error) {
-    console.error(error)
-  }
+  const res = await axios.put(
+    `https://192.168.233.40/todo/api/Todo/UpdateTodoStatus/${data.todoId}`,
+    req
+  )
+  alert(res.data.returnMessage)
+  callselect()
 }
 async function updatedata(data) {
-  try {
-    const res = await axios.put(
-      `https://192.168.233.40/todo/api/Todo/UpdateTodoContent/${data.todoId}`,
-      data
-    )
-    ModifyModuleRef.value.hideModal()
-    alert(res.data.returnMessage)
-    callselect()
-  } catch (error) {
-    console.error(error)
-  }
+  const res = await axios.put(
+    `https://192.168.233.40/todo/api/Todo/UpdateTodoContent/${data.todoId}`,
+    data
+  )
+  ModifyModuleRef.value.hideModal()
+  alert(res.data.returnMessage)
+  callselect()
 }
 
 async function adddata(data) {
-  try {
-    const res = await axios.post('https://192.168.233.40/todo/api/Todo/InsertTodo', data)
-    AddModuleRef.value.hideModal()
-    alert(res.data.returnMessage)
-    callselect()
-  } catch (error) {
-    console.error(error)
-  }
+  const res = await axios.post('https://192.168.233.40/todo/api/Todo/InsertTodo', data)
+  AddModuleRef.value.hideModal()
+  alert(res.data.returnMessage)
+  callselect()
 }
+axios.interceptors.response.use(
+  function (response) {
+    return response
+  },
+  function (error) {
+    return Promise.reject(error)
+  }
+)
 onMounted(() => {
   callselect()
 })
 </script>
 
-<style></style>
+<style scoped>
+.datacard {
+  width: 80%;
+  margin-left: 10%;
+
+  margin-bottom: 2%;
+  border: solid green 1px;
+}
+.btnsty {
+  border: solid black 1px;
+}
+.titletext {
+  font-weight: bolder;
+  font-size: 25px;
+}
+.reset {
+  margin: 0;
+  padding: 0;
+}
+</style>
