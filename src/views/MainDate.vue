@@ -21,7 +21,7 @@
         <p class="card-text">{{ data.todoContent }}</p>
         <a href="#" class="btn btn-primary" @click="domodify(data)">修改</a>
         <a href="#" class="btn btn-primary" @click="dodelete(data)">刪除</a>
-        <a href="#" class="btn btn-primary">完成</a>
+        <a href="#" class="btn btn-primary" @click="dofinish(data)">完成</a>
       </div>
     </div>
   </div>
@@ -66,6 +66,23 @@ async function dodelete(data) {
 
 function doadd() {
   AddModuleRef.value.showModal()
+}
+
+async function dofinish(data) {
+  const req = {
+    todoId: data.todoId,
+    isComplete: 'Y'
+  }
+  try {
+    const res = await axios.put(
+      `https://192.168.233.40/todo/api/Todo/UpdateTodoStatus/${data.todoId}`,
+      req
+    )
+    alert(res.data.returnMessage)
+    callselect()
+  } catch (error) {
+    console.error(error)
+  }
 }
 async function updatedata(data) {
   try {
