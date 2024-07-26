@@ -13,13 +13,13 @@
       <div class="card-body">
         <h5 class="card-title">{{ data.title }}</h5>
         <p class="card-text">{{ data.todoContent }}</p>
-        <a href="#" class="btn btn-primary" @click="domodify">修改</a>
+        <a href="#" class="btn btn-primary" @click="domodify(data)">修改</a>
         <a href="#" class="btn btn-primary">刪除</a>
         <a href="#" class="btn btn-primary">完成</a>
       </div>
     </div>
   </div>
-  <ModifyModule ref="ModifyModuleRef" :TodoData></ModifyModule>
+  <ModifyModule ref="ModifyModuleRef" :TodoData @update="updatedata"></ModifyModule>
 </template>
 
 <script setup>
@@ -31,16 +31,34 @@ const TodoData = ref(null)
 const ModifyModuleRef = ref(null)
 
 async function callselect() {
-  const res = (await axios.get('https://192.168.233.40/todo/api/Todo/Get')).data
-  TodoData.value = res.returnData
+  try {
+    const res = (await axios.get('https://192.168.233.40/todo/api/Todo/Get')).data
+    TodoData.value = res.returnData
+  } catch (error) {
+    console.error(error)
+  }
 }
-function domodify() {
-  ModifyModuleRef.value.setTempData(TodoData.value)
+
+function domodify(data) {
+  ModifyModuleRef.value.setTempData(data)
   ModifyModuleRef.value.showModal()
+}
+
+async function updatedata(data) {
+  try {
+    const res = await axios.put(
+      `https://192.168.233.40/todo/api/Todo/UpdateTodoContent/${data.todoId}`,
+      data
+    )
+    ModifyModuleRef.value.hideModal()
+    alert(res.data.returnMessage)
+    callselect()
+  } catch (error) {
+    console.error(error)
+  }
 }
 onMounted(() => {
   callselect()
-  console.log(TodoData)
 })
 </script>
 

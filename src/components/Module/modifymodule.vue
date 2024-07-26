@@ -30,14 +30,14 @@
                 <label for="floatingInputGrid">標題</label>
               </div>
               <div class="form-floating">
-                <input type="number" class="form-control" v-model="tempData.todoContent" />
+                <input type="text" class="form-control" v-model="tempData.todoContent" />
                 <label for="floatingInputGrid">內容</label>
               </div>
             </div>
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn">修改</button>
+          <button type="button" class="btn" @click="transdata">修改</button>
         </div>
       </div>
     </div>
@@ -47,6 +47,8 @@
 <script lang="ts" setup>
 import { ref, onMounted } from 'vue'
 import bootstrap from 'bootstrap/dist/js/bootstrap.bundle.min.js'
+
+const emits = defineEmits(['update'])
 
 const exampleModalRef = ref(null)
 const exampleModalObj = ref(null)
@@ -61,7 +63,13 @@ function hideModal() {
 
 function setTempData(data) {
   tempData.value = JSON.parse(JSON.stringify(data))
+  console.log(tempData.value)
 }
+
+function transdata() {
+  emits('update', tempData.value)
+}
+
 defineExpose({
   showModal,
   hideModal,
