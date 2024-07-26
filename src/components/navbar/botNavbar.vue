@@ -1,16 +1,12 @@
 <template>
-  <nav class="navbar bg-body-tertiary">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">
-        <img
-          src="https://getbootstrap.com/docs/5.3/assets/brand/bootstrap-logo.svg"
-          alt="Logo"
-          width="30"
-          height="24"
-          class="d-inline-block align-text-top"
-        />
-        Bootstrap
-      </a>
+  <nav class="navbar bg-body-tertiary bg-info-subtle border border-info">
+    <div class="container-fluid d-flex justify-content-center">
+      <div
+        class="navbar-brand border border-black w-25 font-center text-center bg-black text-light fw-bolder"
+        href="#"
+      >
+        End
+      </div>
     </div>
   </nav>
 </template>

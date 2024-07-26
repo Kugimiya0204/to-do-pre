@@ -138,6 +138,7 @@ onMounted(() => {
 
 <style scoped>
 .datacard {
+  text-align: center;
   margin-left: 5%;
   margin-bottom: 2%;
   border: solid green 1px;
