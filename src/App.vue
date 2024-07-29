@@ -10,7 +10,7 @@ const uName = ref(
 
 <template>
   <div>
-    <RouterView name="topNavbar" v-model="uName"></RouterView>
+    <RouterView name="topNavbar" :uName></RouterView>
     <RouterView></RouterView>
     <RouterView name="botNavbar"></RouterView>
   </div>

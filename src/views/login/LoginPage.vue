@@ -32,17 +32,16 @@ const loginList = [
 ]
 
 function login() {
-  if (checklogin) {
+  if (checklogin()) {
     document.cookie = 'user=' + username.value + ';'
-
     return router.push({ name: 'Home' })
   }
 }
 function checklogin() {
-  for (const data in loginList) {
-    if (data.username == username.value && data.password == password.value) return true
-  }
-  return false
+  const user = loginList.find(
+    (check) => check.username == username.value && check.password == password.value
+  )
+  return user
 }
 </script>
 

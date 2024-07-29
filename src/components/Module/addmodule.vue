@@ -52,7 +52,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import * as bootstrap from 'bootstrap'
+import { Modal } from 'bootstrap'
 
 const emits = defineEmits(['add'])
 
@@ -77,7 +77,7 @@ defineExpose({
 })
 
 onMounted(() => {
-  exampleModalObj.value = new bootstrap.Modal(exampleModalRef.value)
+  exampleModalObj.value = new Modal(exampleModalRef.value)
   tempData.value = {
     name: null,
     title: null,

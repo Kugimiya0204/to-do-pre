@@ -6,7 +6,7 @@
         width="24"
         height="24"
         viewBox="0 0 24 24"
-        style="fill: rgba(0, 0, 0, 1); transform:; msfilter:"
+        style="fill: rgba(0, 0, 0, 1); transform: msfilter"
       >
         <path
           d="M4 7h11v2H4zm0 4h11v2H4zm0 4h7v2H4zm15.299-2.708-4.3 4.291-1.292-1.291-1.414 1.415 2.706 2.704 5.712-5.703z"
@@ -30,7 +30,9 @@
             <a class="nav-link active" aria-current="page">Home</a>
           </li>
           <li class="nav-item">
-            <a v-if="name" class="nav-link active" aria-current="page">使用者:{{ name }}</a>
+            <a v-if="props.uName" class="nav-link active" aria-current="page"
+              >使用者:{{ props.uName }}</a
+            >
           </li>
           <li class="nav-item">
             <span class="nav-link">
@@ -54,7 +56,8 @@
 <script setup>
 import { RouterLink, useRouter } from 'vue-router'
 
-const name = defineModel()
+const props = defineProps(['uName'])
+props.uName
 
 const router = useRouter()
 
