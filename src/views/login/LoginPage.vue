@@ -10,38 +10,24 @@
 </template>
 
 <script setup>
+import { storeToRefs } from 'pinia'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { useUserStore } from '@/stores/counter'
 
 const router = useRouter()
 const username = ref(null)
 const password = ref(null)
-const loginList = [
-  {
-    username: 'AAA',
-    password: 'aaa'
-  },
-  {
-    username: 'BBB',
-    password: 'bbb'
-  },
-  {
-    username: 'CCC',
-    password: 'ccc'
-  }
-]
+const { userlogin } = useUserStore()
+const { Loginuser } = storeToRefs(useUserStore())
 
 function login() {
-  if (checklogin()) {
-    document.cookie = 'user=' + username.value + ';'
+  userlogin(username.value, password.value)
+  if (Loginuser.value) {
     return router.push({ name: 'Home' })
+  } else {
+    alert('登入失敗')
   }
-}
-function checklogin() {
-  const user = loginList.find(
-    (check) => check.username == username.value && check.password == password.value
-  )
-  return user
 }
 </script>
 

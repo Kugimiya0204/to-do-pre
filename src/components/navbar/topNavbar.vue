@@ -30,8 +30,8 @@
             <a class="nav-link active" aria-current="page">Home</a>
           </li>
           <li class="nav-item">
-            <a v-if="props.uName" class="nav-link active" aria-current="page"
-              >使用者:{{ props.uName }}</a
+            <a v-if="Loginuser" class="nav-link active" aria-current="page"
+              >使用者:{{ Loginuser.name }}</a
             >
           </li>
           <li class="nav-item">
@@ -54,15 +54,17 @@
 </template>
 
 <script setup>
+import { storeToRefs } from 'pinia'
 import { RouterLink, useRouter } from 'vue-router'
+import { useUserStore } from '@/stores/counter'
 
-const props = defineProps(['uName'])
-props.uName
+const { userlogin } = useUserStore()
+const { Loginuser } = storeToRefs(useUserStore())
 
 const router = useRouter()
 
 function cleanCookie() {
-  document.cookie = 'user=;'
+  userlogin('', '')
   router.push({ name: 'login' })
 }
 </script>
