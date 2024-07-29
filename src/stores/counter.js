@@ -27,7 +27,6 @@ export const useUserStore = defineStore('user', () => {
       const user = userList.find(
         (check) => check.username == username.value && check.password == password.value
       )
-      console.log(user)
       return user
     })
   )
@@ -35,7 +34,6 @@ export const useUserStore = defineStore('user', () => {
   function userlogin(un, pw) {
     username.value = un
     password.value = pw
-    console.log(username, password)
   }
 
   return { Loginuser, userlogin }

@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { storeToRefs } from 'pinia'
 import { useUserStore } from '@/stores/counter'
 
 const router = createRouter({
@@ -33,7 +32,6 @@ router.beforeEach(async (to, from) => {
   const { Loginuser } = useUserStore()
   console.log('to =' + to.name, 'from =' + from.name)
   if (!Loginuser && to.name != 'login') {
-    console.log('n')
     return { name: 'login' }
   }
 })
