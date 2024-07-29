@@ -10,7 +10,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">新增代辦事項</h1>
+          <h1 class="modal-title fs-5" id="exampleModalLabel">{{ title }}</h1>
           <button
             type="button"
             class="btn-close"
@@ -43,7 +43,7 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-success" @click="transdata">新增</button>
+          <button type="button" class="btn btn-success" @click="transdata">{{ buttontext }}</button>
         </div>
       </div>
     </div>
@@ -54,11 +54,14 @@
 import { ref, onMounted } from 'vue'
 import { Modal } from 'bootstrap'
 
-const emits = defineEmits(['add'])
+const emits = defineEmits(['update', 'add'])
 
 const exampleModalRef = ref(null)
 const exampleModalObj = ref(null)
 const tempData = ref(null)
+const title = ref(null)
+const buttontext = ref(null)
+const dofunc = ref(null)
 
 function showModal() {
   exampleModalObj.value.show()
@@ -67,22 +70,40 @@ function hideModal() {
   exampleModalObj.value.hide()
 }
 
+function setTempData(todo, data) {
+  if (todo === 'add') {
+    tempData.value = {
+      name: null,
+      title: null,
+      todoContent: null
+    }
+    title.value = '新增代辦事項'
+    dofunc.value = todo
+    buttontext.value = '新增'
+  } else if (todo === 'modify') {
+    tempData.value = JSON.parse(JSON.stringify(data))
+    title.value = '修改代辦事項'
+    dofunc.value = todo
+    buttontext.value = '修改'
+  }
+}
+
 function transdata() {
-  emits('add', tempData.value)
+  if (dofunc.value === 'add') {
+    emits('add', tempData.value)
+  } else if (dofunc.value === 'modify') {
+    emits('update', tempData.value)
+  }
 }
 
 defineExpose({
   showModal,
-  hideModal
+  hideModal,
+  setTempData
 })
 
 onMounted(() => {
   exampleModalObj.value = new Modal(exampleModalRef.value)
-  tempData.value = {
-    name: null,
-    title: null,
-    todoContent: null
-  }
 })
 </script>
 
