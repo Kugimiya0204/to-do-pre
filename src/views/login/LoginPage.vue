@@ -1,12 +1,14 @@
 <template>
-  <h1>Login page</h1>
-  <div class="input-group mb-3 inputcss">
-    <input type="text" class="form-control" placeholder="Username" v-model="username" />
+  <div class="area">
+    <h1 class="my-3">Login page</h1>
+    <div class="input-group mb-3">
+      <input type="text" class="form-control" placeholder="Username" v-model="username" />
+    </div>
+    <div class="input-group mb-3">
+      <input type="text" class="form-control" placeholder="Password" v-model="password" />
+    </div>
+    <button class="btn btn-outline-secondary mb-3" type="button" @click="login">登入</button>
   </div>
-  <div class="input-group mb-3 inputcss">
-    <input type="text" class="form-control" placeholder="Password" v-model="password" />
-  </div>
-  <button class="btn btn-outline-secondary" type="button" @click="login">登入</button>
 </template>
 
 <script setup>
@@ -32,8 +34,9 @@ function login() {
 </script>
 
 <style scoped>
-.inputcss {
-  width: 50%;
+.area {
   text-align: center;
+  width: 50%;
+  margin-left: 25%;
 }
 </style>

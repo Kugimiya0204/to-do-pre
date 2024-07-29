@@ -22,14 +22,12 @@ export const useUserStore = defineStore('user', () => {
     }
   ]
 
-  const Loginuser = ref(
-    computed(() => {
-      const user = userList.find(
-        (check) => check.username == username.value && check.password == password.value
-      )
-      return user
-    })
-  )
+  const Loginuser = computed(() => {
+    const user = userList.find(
+      (check) => check.username == username.value && check.password == password.value
+    )
+    return user
+  })
 
   function userlogin(un, pw) {
     username.value = un
